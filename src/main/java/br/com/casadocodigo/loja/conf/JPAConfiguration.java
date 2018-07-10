@@ -35,26 +35,25 @@ public class JPAConfiguration {
 	}
 
 	@Bean
-	@Profile("dev")
+	@Profile("dev,default")
+	public DataSource dataSource(){
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setUrl("jdbc:h2:~/cdc_db;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false");
+		dataSource.setDriverClassName("org.h2.Driver");
+		dataSource.setUsername("root");
+		dataSource.setPassword("");
+		return dataSource;
+	}
+	@Bean
+	@Profile("dev,default")
 	public Properties additionalProperties() {
 		Properties properties = new Properties();
-		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
 		properties.setProperty("hibernate.show_sql", "true");
 		properties.setProperty("hibernate.hbm2ddl.auto", "create");
 		//propriedade para mostra o DDL gerado como log
 		properties.setProperty("javax.persistence.schema-generation.scripts.create-target", "db-schema.jpa.ddl");
 		return properties;
-	}
-
-	@Bean
-	@Profile("dev")
-	private DriverManagerDataSource dataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setUsername("root");
-		dataSource.setPassword("");
-		dataSource.setUrl("jdbc:mysql://localhost/casadocodigo");
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		return dataSource;
 	}
 
 	@Bean
