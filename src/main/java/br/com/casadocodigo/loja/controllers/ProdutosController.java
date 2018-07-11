@@ -60,7 +60,7 @@ public class ProdutosController {
 		dao.gravar(produto);
 		
 		redirectAttributes.addFlashAttribute("message", "Produto cadastrado com sucesso!");
-		
+
 		return new ModelAndView("redirect:/produtos");
 	}
 	
@@ -74,7 +74,7 @@ public class ProdutosController {
 	
 	@RequestMapping("/detalhe/{id}")
 	public ModelAndView detalhe(@PathVariable("id") Integer id){
-	    ModelAndView modelAndView = new ModelAndView("/produtos/detalhe");
+	    ModelAndView modelAndView = new ModelAndView("produtos/detalhe");
 	    Produto produto = dao.find(id);
 	    
 //	    if(true) throw new RuntimeException("Excessão Genérica Acontecendo!!!!");
