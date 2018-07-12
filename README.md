@@ -1,39 +1,54 @@
+# Alterado para Spring-Boot
 ## Ambiente 
 
- Aplicação foi testado com JRE8 e JRE9 no Apache Tomcat 7, 8, 9
+ Aplicação foi testada com JRE8 
  
-## MySQL
+## H2
 
-O projeto usa MySQL e deve existir já o banco `casadocodigo`. O JPA foi configurado para dropar e gerar as tables automaticamente ao iniciar (na classe `JPAConfiguration`). Caso queira gerar as tabelas manualmente, abaixo desse README tem os comandos SQL.
+O projeto usa H2 que é um banco de dados em memória
 
 ## Compilação
 
- Para compilar immporte o projeto no Eclipse (*Import as Maven Projeto*) ou compile na linha de comando usando Maven:
+ Basta usar o comando:
 
 	mvn clean compile package
+	
+## Execução
+    
+  Basta usar o comando:
+    
+    mvn spring-boot:run 
+ 
+  ou
+ 
+    mvn spring-boot:run -Dspring.profiles.active={profile}
+    
+  ou
+  
+    java -jar path/do/jar/app.war [opções] 
 
-## Profile DEV
+## Profile DEV, DEFAULT
 
-O projeto sobe automaticamente ativando o profile "dev". Isso foi configurado através da classe ServletSpringMVC no método onStartup(..).
+O projeto sobe automaticamente ativando o profile "Default". Configurado pelo proprio spring boot
 
-	servletContext.setInitParameter("spring.profiles.active", "dev");
-
-Para não usar o profile "dev" basta comentar o InitParameter, no entanto é preciso um paramentro de inicialização no Tomcat (dentro das "Run Configurations...")
+Para não usar o profile "default" passar a flag -Dspring.profiles.active={profile} como argumento do start da applicação
 
 	 "-Dspring.profiles.active=dev"
 
 ## URL e Inicialização
 
-Ao rodar no Eclipse pelo  Tomcat acesse:
+Ao rodar o projeto acesse:
 
 	http://localhost:8080/casadocodigo
 	
-Execute a "URL Mágica" para cadastrar produtos e um usuario padrão (Login: admin@casadocodigo.com.br, Senha: 123456)	
+Execute a "URL Mágica" para cadastrar produtos e um usuario padrão (Login: admin@casadocodigo.com.br, Senha: 123456).
+
+Por ser banco de dados em memoria é necessario executar todas as vezes esta URL
+## Trocar o banco
+
+Se preferir usar um outro banco relacional, altere a classe ```JPAConfiguration``` ou configure um novo profile
 
 ## SQL para geração das tables
-
-Se preferir gerar o banco, seguem os comandos SQL para o banco MySQL:
-
 ```SQL
 drop table if exists Produto;
 drop table if exists Produto_precos;
