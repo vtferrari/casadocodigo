@@ -18,16 +18,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("relatorio-produtos")
+@RequestMapping("/relatorio-produtos")
 public class RelatorioProdutosController {
 
     @Autowired
     private ProdutoDAO produtoDAO;
 
     @GetMapping
-    public ResponseEntity<RelatorioDTO> getRelatorio(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
-
-        final List<Produto> produtos = produtoDAO.listarPor(data);
+    public ResponseEntity<RelatorioDTO> getRelatorio(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
+        List<Produto> produtos;
+        if (data == null) {
+            produtos = produtoDAO.listar();
+        } else {
+            produtos = produtoDAO.listarPor(data);
+        }
         if (produtos.isEmpty()) {
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RelatorioDTO(LocalDateTime.now(), 0, new ArrayList<>()));
